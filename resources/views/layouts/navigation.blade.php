@@ -26,7 +26,7 @@
                     <x-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.*')" class="nav-link">
                         {{ __('FAQ') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('contact.show')" :active="request()->routeIs('contact.*')" class="nav-link">
+                   <x-nav-link :href="route('contact.show')" :active="request()->routeIs('contact.*')" class="nav-link">
                         {{ __('Contact') }}
                     </x-nav-link>
                 </div>

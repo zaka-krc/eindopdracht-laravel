@@ -18,9 +18,14 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+            'name',
+            'email',
+            'password',
+            'is_admin',
+            'username',
+            'birthday',
+            'profile_photo',
+            'about_me',
     ];
 
     /**
@@ -46,16 +51,7 @@ class User extends Authenticatable
         ];
     }
     /*info gebruikers*/
-    protected $fillable = [
-    'name',
-    'email',
-    'password',
-    'is_admin',
-    'username',
-    'birthday',
-    'profile_photo',
-    'about_me',
-];
+
 
 public function newsItems()
 {

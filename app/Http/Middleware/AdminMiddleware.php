@@ -4,22 +4,19 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-{
-    if (!auth()->check() || !auth()->user()->is_admin) {
-        abort(403, 'Alleen beheerders hebben toegang tot deze pagina.');
-    }
+    public function handle(Request $request, Closure $next)
+    {
+        // Controleer of gebruiker is ingelogd en admin is
+        if (!auth()->check() || !auth()->user()->is_admin) {
+            abort(403, 'Alleen beheerders hebben toegang tot deze pagina.');
+        }
 
-    return $next($request);
-}
-    
+        return $next($request);
+    }
 }

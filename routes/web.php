@@ -34,5 +34,20 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // FAQ Questions
     Route::resource('faq/questions', App\Http\Controllers\FaqQuestionController::class, ['as' => 'faq']);
 });
+// Contact routes
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'show'])
+    ->name('contact.show');
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'submit'])
+    ->name('contact.submit');
+
+// Admin contact routes (alleen voor admins)
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])
+        ->name('contact.index');
+    Route::get('/contact/{message}', [App\Http\Controllers\ContactController::class, 'view'])
+        ->name('contact.view');
+    Route::delete('/contact/{message}', [App\Http\Controllers\ContactController::class, 'destroy'])
+        ->name('contact.destroy');
+});
 
 require __DIR__.'/auth.php';

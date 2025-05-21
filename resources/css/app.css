@@ -2,22 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Gaming Theme Styles */
+/* Eenvoudig Gaming Thema - alleen kleuren, geen afbeeldingen */
 :root {
-  --primary: #6d28d9;      /* Purple */
-  --primary-hover: #7c3aed;
-  --secondary: #10b981;    /* Green */
-  --secondary-hover: #059669;
-  --dark: #111827;         /* Near Black */
-  --medium-dark: #1f2937;  /* Dark Gray */
-  --light: #f3f4f6;        /* Light Gray */
-  --accent: #f59e0b;       /* Amber/Orange */
+  --primary: #7e22ce;      /* Purple-600 */
+  --secondary: #0d9488;    /* Teal-600 */
+  --dark: #1e293b;         /* Slate-800 */
+  --medium-dark: #334155;  /* Slate-700 */
+  --light: #f1f5f9;        /* Slate-100 */
+  --accent: #f59e0b;       /* Amber-500 */
 }
 
+/* Basis stijlen */
 body {
   background-color: var(--dark);
   color: var(--light);
-
 }
 
 /* Header & Navigation */
@@ -25,106 +23,65 @@ body {
   background-color: var(--medium-dark) !important;
 }
 
-.border-gray-100, .border-gray-200 {
-  border-color: var(--primary) !important;
-  border-opacity: 0.3;
-}
-
 .text-gray-800, .text-gray-900 {
   color: var(--light) !important;
 }
 
 .text-gray-600, .text-gray-500 {
-  color: #9ca3af !important;
+  color: #cbd5e1 !important; /* Slate-300 */
 }
 
-/* Logo Animation */
-.animated-logo {
-  background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary), var(--primary));
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: flow 4s ease infinite;
-}
-
-@keyframes flow {
-  0% { background-position: 0% 50% }
-  50% { background-position: 100% 50% }
-  100% { background-position: 0% 50% }
-}
-
-/* Cards & Content Boxes */
-.card {
+/* Card & Componentstijlen */
+.shadow-sm {
   background-color: var(--medium-dark) !important;
-  border: 1px solid rgba(109, 40, 217, 0.2) !important;
-  border-radius: 0.5rem !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 
-              0 0 0 1px rgba(109, 40, 217, 0.2), 
-              0 0 15px -3px rgba(109, 40, 217, 0.15) !important;
-  position: relative;
-  overflow: hidden;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-color: rgba(126, 34, 206, 0.2) !important;
 }
 
 /* Buttons */
-.bg-blue-500, [type="submit"], .btn-primary {
+.bg-blue-500, [type="submit"] {
   background-color: var(--primary) !important;
-  color: white !important;
-  transition: all 0.3s ease;
 }
 
-.bg-blue-500:hover, [type="submit"]:hover, .btn-primary:hover {
-  background-color: var(--primary-hover) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.3);
+.bg-blue-500:hover, [type="submit"]:hover {
+  background-color: #9333ea !important; /* Purple-700 */
 }
 
-.bg-gray-500, .btn-secondary {
+.bg-gray-500 {
   background-color: var(--medium-dark) !important;
   border: 1px solid var(--primary);
-  color: white !important;
 }
 
-.bg-gray-500:hover, .btn-secondary:hover {
-  background-color: rgba(31, 41, 55, 0.8) !important;
+.bg-gray-500:hover {
+  background-color: #475569 !important; /* Slate-600 */
 }
 
 /* Form Controls */
 input, select, textarea {
-  background-color: var(--medium-dark) !important;
-  border: 1px solid rgba(109, 40, 217, 0.3) !important;
+  background-color: #1e293b !important; /* Slate-800 */
+  border-color: rgba(126, 34, 206, 0.3) !important;
   color: white !important;
 }
 
 input:focus, select:focus, textarea:focus {
   border-color: var(--primary) !important;
-  box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.25) !important;
+  box-shadow: 0 0 0 2px rgba(126, 34, 206, 0.25) !important;
 }
 
-/* Nav Link Hover Effect */
-.hover\:text-gray-700:hover {
-  color: var(--primary) !important;
+/* Link Colors */
+a {
+  color: var(--primary);
 }
 
-.nav-link.active, .text-indigo-600 {
-  color: var(--primary) !important;
+a:hover {
+  color: #9333ea; /* Purple-700 */
 }
 
 /* Footer */
 .site-footer {
   background-color: var(--medium-dark);
-  border-top: 1px solid rgba(109, 40, 217, 0.3);
-  margin-top: 3rem;
-  padding: 1.5rem 0;
+  border-top: 1px solid rgba(126, 34, 206, 0.3);
+  margin-top: 2rem;
+  padding: 1rem 0;
   text-align: center;
+  font-size: 0.875rem;
 }
