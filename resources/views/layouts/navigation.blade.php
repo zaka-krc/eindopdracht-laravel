@@ -26,7 +26,7 @@
                     <x-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.*')" class="nav-link">
                         {{ __('FAQ') }}
                     </x-nav-link>
-                   <x-nav-link :href="route('contact.show')" :active="request()->routeIs('contact.*')" class="nav-link">
+                    <x-nav-link :href="route('contact.show')" :active="request()->routeIs('contact.*')" class="nav-link">
                         {{ __('Contact') }}
                     </x-nav-link>
                 </div>
@@ -49,7 +49,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Profiel') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -104,7 +104,7 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')" class="nav-link">
-                    {{ __('Profile') }}
+                    {{ __('Profiel') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

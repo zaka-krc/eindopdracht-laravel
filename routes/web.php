@@ -49,5 +49,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::delete('/contact/{message}', [App\Http\Controllers\ContactController::class, 'destroy'])
         ->name('contact.destroy');
 });
+// Publieke profielpagina
+Route::get('/profile/{user}', [App\Http\Controllers\Auth\ProfileController::class, 'show'])->name('profile.show');
 
 require __DIR__.'/auth.php';
