@@ -45,4 +45,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    /*info gebruikers*/
+    protected $fillable = [
+    'name',
+    'email',
+    'password',
+    'is_admin',
+    'username',
+    'birthday',
+    'profile_photo',
+    'about_me',
+];
+
+public function newsItems()
+{
+    return $this->hasMany(NewsItem::class);
+}
 }
