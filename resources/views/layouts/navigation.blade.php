@@ -5,23 +5,28 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ route('dashboard') }}" class="flex items-center">
+                        <span class="text-primary mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+                            </svg>
+                        </span>
+                        <span class="animated-logo font-bold text-xl uppercase tracking-wider">GameHub</span>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="nav-link">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('news.index')" :active="request()->routeIs('news.*')">
+                    <x-nav-link :href="route('news.index')" :active="request()->routeIs('news.*')" class="nav-link">
                         {{ __('Nieuws') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.*')">
+                    <x-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.*')" class="nav-link">
                         {{ __('FAQ') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('contact.show')" :active="request()->routeIs('contact.*')">
+                    <x-nav-link :href="route('contact.show')" :active="request()->routeIs('contact.*')" class="nav-link">
                         {{ __('Contact') }}
                     </x-nav-link>
                 </div>
@@ -76,16 +81,16 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="nav-link">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('news.index')" :active="request()->routeIs('news.*')">
+            <x-responsive-nav-link :href="route('news.index')" :active="request()->routeIs('news.*')" class="nav-link">
                 {{ __('Nieuws') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.*')">
+            <x-responsive-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.*')" class="nav-link">
                 {{ __('FAQ') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('contact.show')" :active="request()->routeIs('contact.*')">
+            <x-responsive-nav-link :href="route('contact.show')" :active="request()->routeIs('contact.*')" class="nav-link">
                 {{ __('Contact') }}
             </x-responsive-nav-link>
         </div>
@@ -98,7 +103,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('profile.edit')" class="nav-link">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
@@ -106,7 +111,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route('logout')"
+                    <x-responsive-nav-link :href="route('logout')" class="nav-link"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
