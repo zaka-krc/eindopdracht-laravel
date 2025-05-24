@@ -52,4 +52,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 // Publieke profielpagina
 Route::get('/profile/{user}', [App\Http\Controllers\Auth\ProfileController::class, 'show'])->name('profile.show');
 
+// Admin routes (alleen voor admins)
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    // Gebruikersbeheer
+    Route::resource('users', App\Http\Controllers\AdminUserController::class, ['as' => 'admin']);
+    Route::post('users/{user}/toggle-admin', [App\Http\Controllers\AdminUserController::class, 'toggleAdmin'])
+        ->name('admin.users.toggle-admin');
+    
+    // Bestaande admin routes voor contact, news, etc.
+    Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
+    Route::get('/contact/{message}', [App\Http\Controllers\ContactController::class, 'view'])->name('contact.view');
+    Route::delete('/contact/{message}', [App\Http\Controllers\ContactController::class, 'destroy'])->name('contact.destroy');
+    
+    // FAQ admin routes
+    Route::resource('faq/categories', App\Http\Controllers\FaqCategoryController::class, ['as' => 'faq']);
+    Route::resource('faq/questions', App\Http\Controllers\FaqQuestionController::class, ['as' => 'faq']);
+});
+
 require __DIR__.'/auth.php';

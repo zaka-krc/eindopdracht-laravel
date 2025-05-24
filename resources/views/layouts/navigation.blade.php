@@ -52,6 +52,13 @@
                             {{ __('Profiel') }}
                         </x-dropdown-link>
 
+                        <!-- Admin link toegevoegd -->
+                        @if(Auth::user()->is_admin)
+                            <x-dropdown-link :href="route('admin.users.index')">
+                                {{ __('Gebruikersbeheer') }}
+                            </x-dropdown-link>
+                        @endif
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -106,6 +113,13 @@
                 <x-responsive-nav-link :href="route('profile.edit')" class="nav-link">
                     {{ __('Profiel') }}
                 </x-responsive-nav-link>
+
+                <!-- Admin link toegevoegd in responsive menu -->
+                @if(Auth::user()->is_admin)
+                    <x-responsive-nav-link :href="route('admin.users.index')" class="nav-link">
+                        {{ __('Gebruikersbeheer') }}
+                    </x-responsive-nav-link>
+                @endif
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
