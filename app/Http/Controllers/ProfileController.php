@@ -27,44 +27,34 @@ class ProfileController extends Controller
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        // Voeg de ontbrekende velden toe
-        $validated = $request->validate([
-            'username' => 'nullable|string|max:255',
-            'birthday' => 'nullable|date',
-            'about_me' => 'nullable|string|max:1000',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $user = $request->user();
+        $validated = $request->validated();
 
         // Verwerk de profielfoto upload
         if ($request->hasFile('profile_photo')) {
             // Verwijder oude profielfoto als die bestaat
-            if ($request->user()->profile_photo) {
-                Storage::disk('public')->delete($request->user()->profile_photo);
+            if ($user->profile_photo) {
+                Storage::disk('public')->delete($user->profile_photo);
             }
             
             // Sla de nieuwe profielfoto op
             $path = $request->file('profile_photo')->store('profile-photos', 'public');
-            $request->user()->profile_photo = $path;
+            $validated['profile_photo'] = $path;
         }
 
-        // Voeg de overige velden toe
-        if (isset($validated['username'])) {
-            $request->user()->username = $validated['username'];
-        }
-        if (isset($validated['birthday'])) {
-            $request->user()->birthday = $validated['birthday'];
-        }
-        if (isset($validated['about_me'])) {
-            $request->user()->about_me = $validated['about_me'];
+        //Verwerk game interests
+        $gameInterests = $request->input('game_interests', []);
+        $user->gameInterests()->sync($gameInterests);
+
+        // Update user met alle validated data
+        $user->fill($validated);
+
+        // Check of email is gewijzigd
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -96,4 +86,5 @@ class ProfileController extends Controller
     {
         return view('profile.show', compact('user'));
     }
+    
 }

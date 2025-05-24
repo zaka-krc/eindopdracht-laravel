@@ -18,14 +18,14 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-            'name',
-            'email',
-            'password',
-            'is_admin',
-            'username',
-            'birthday',
-            'profile_photo',
-            'about_me',
+        'name',
+        'email',
+        'password',
+        'is_admin',
+        'username',
+        'birthday',
+        'profile_photo',
+        'about_me',
     ];
 
     /**
@@ -50,11 +50,36 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    /*info gebruikers*/
 
+    /**
+     * One-to-many: User has many news items
+     */
+    public function newsItems()
+    {
+        return $this->hasMany(NewsItem::class);
+    }
 
-public function newsItems()
-{
-    return $this->hasMany(NewsItem::class);
-}
+    /**
+     * Many-to-many: User has many game interests
+     */
+    public function gameInterests()
+    {
+        return $this->belongsToMany(GameInterest::class, 'user_game_interests');
+    }
+
+    /**
+     * Check if user has a specific game interest
+     */
+    public function hasGameInterest($interestId)
+    {
+        return $this->gameInterests()->where('game_interest_id', $interestId)->exists();
+    }
+
+    /**
+     * Get formatted display name
+     */
+    public function getDisplayNameAttribute()
+    {
+        return $this->username ?: $this->name;
+    }
 }

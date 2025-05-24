@@ -67,13 +67,158 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 2px rgba(126, 34, 206, 0.25) !important;
 }
 
-/* Link Colors */
+/* DROPDOWN MENU FIXES */
+[x-transition] {
+  background-color: var(--medium-dark) !important;
+  border: 1px solid rgba(126, 34, 206, 0.3) !important;
+}
+
+/* Dropdown content styling */
+div[class*="origin-top-right"], 
+div[class*="absolute"][class*="right-0"], 
+div[class*="mt-2"][class*="w-48"] {
+  background-color: var(--medium-dark) !important;
+  border: 1px solid rgba(126, 34, 206, 0.3) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Dropdown links - CRITICAL FIX */
+a[class*="block px-4 py-2"], 
+button[class*="block px-4 py-2"],
+a[href*="profile"],
+a[href*="admin"],
+a[href*="logout"],
+form[action*="logout"] a,
+form[action*="logout"] button {
+  color: #f1f5f9 !important; /* Slate-100 - White text */
+  background-color: transparent !important;
+}
+
+a[class*="block px-4 py-2"]:hover,
+button[class*="block px-4 py-2"]:hover {
+  background-color: #475569 !important; /* Slate-600 */
+  color: var(--primary) !important;
+}
+
+/* AUTH FORMS FIXES */
+/* Login/Register page background */
+.bg-gray-100 {
+  background-color: var(--dark) !important;
+}
+
+/* Auth card background */
+.bg-white.shadow-md, 
+.bg-white.overflow-hidden {
+  background-color: var(--medium-dark) !important;
+  border: 1px solid rgba(126, 34, 206, 0.3) !important;
+}
+
+/* Auth form labels */
+label, 
+.text-sm.font-medium {
+  color: #cbd5e1 !important; /* Slate-300 */
+}
+
+/* Auth text colors */
+.text-gray-700 {
+  color: #cbd5e1 !important; /* Slate-300 */
+}
+
+/* Auth links */
+.text-indigo-600, 
+.underline.text-sm {
+  color: var(--primary) !important;
+}
+
+.text-indigo-600:hover {
+  color: #9333ea !important; /* Purple-700 */
+}
+
+/* Error messages */
+.text-red-600, .text-red-500 {
+  color: #ef4444 !important; /* Red-500 */
+}
+
+/* Success messages */
+.text-green-600 {
+  color: #22c55e !important; /* Green-500 */
+}
+
+/* Remember me checkbox */
+input[type="checkbox"] {
+  accent-color: var(--primary) !important;
+  background-color: var(--dark) !important;
+  border-color: rgba(126, 34, 206, 0.5) !important;
+}
+
+/* Primary button styles */
+.bg-indigo-600 {
+  background-color: var(--primary) !important;
+}
+
+.bg-indigo-600:hover {
+  background-color: #9333ea !important; /* Purple-700 */
+}
+
+/* Secondary button */
+.bg-gray-800 {
+  background-color: var(--medium-dark) !important;
+  border: 1px solid var(--primary) !important;
+}
+
+.bg-gray-800:hover {
+  background-color: #475569 !important; /* Slate-600 */
+}
+
+/* NAVIGATION LINKS */
+.border-indigo-400 {
+  border-color: var(--primary) !important;
+}
+
+/* Responsive nav background */
+.border-gray-200 {
+  border-color: #475569 !important; /* Slate-600 */
+}
+
+/* GUEST LAYOUT FIXES */
+.text-gray-500 {
+  color: #94a3b8 !important; /* Slate-400 */
+}
+
+/* Application logo */
+.fill-current {
+  color: var(--primary) !important;
+}
+
+/* GENERAL LINK COLORS */
 a {
   color: var(--primary);
 }
 
 a:hover {
   color: #9333ea; /* Purple-700 */
+}
+
+/* BREADCRUMB & NAVIGATION COLORS */
+.text-gray-400 {
+  color: #94a3b8 !important; /* Slate-400 */
+}
+
+.text-gray-300 {
+  color: #cbd5e1 !important; /* Slate-300 */
+}
+
+.text-gray-200 {
+  color: #e2e8f0 !important; /* Slate-200 */
+}
+
+.text-gray-100 {
+  color: #f1f5f9 !important; /* Slate-100 */
+}
+
+/* VALIDATION & STATUS MESSAGES */
+.text-sm.text-gray-600 {
+  color: #94a3b8 !important; /* Slate-400 */
 }
 
 /* Footer */
@@ -84,4 +229,29 @@ a:hover {
   padding: 1rem 0;
   text-align: center;
   font-size: 0.875rem;
+}
+
+/* RESPONSIVE MENU FIXES */
+div[class*="sm:hidden"] a,
+div[class*="sm:hidden"] button {
+  color: #f1f5f9 !important;
+}
+
+/* FILE INPUT STYLING */
+input[type="file"] {
+  color: #cbd5e1 !important;
+}
+
+input[type="file"]::file-selector-button {
+  background-color: var(--primary) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.375rem !important;
+  margin-right: 1rem !important;
+  font-weight: 600 !important;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #9333ea !important;
 }

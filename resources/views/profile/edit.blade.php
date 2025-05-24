@@ -20,12 +20,10 @@
                             <h2 class="text-lg font-medium text-gray-100">
                                 {{ __('Publiek Profiel Informatie') }}
                             </h2>
-
                             <p class="mt-1 text-sm text-gray-300">
                                 {{ __("Update je publieke profielinformatie die zichtbaar is voor andere gebruikers.") }}
                             </p>
                         </header>
-
                         <form id="public-profile-form" method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="mt-6 space-y-6">
                             @csrf
                             @method('patch')
@@ -34,6 +32,50 @@
                                 <x-input-label for="username" :value="__('Gebruikersnaam')" />
                                 <x-text-input id="username" name="username" type="text" class="mt-1 block w-full" :value="old('username', $user->username)" />
                                 <x-input-error class="mt-2" :messages="$errors->get('username')" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="game_interests" :value="__('Game Interesses')" />
+                                <p class="text-sm text-gray-400 mb-3">Selecteer de game categorieën waarin je geïnteresseerd bent</p>
+                                
+                                @php
+                                    $gameInterests = \App\Models\GameInterest::all();
+                                    $userInterestIds = $user->gameInterests->pluck('id')->toArray();
+                                @endphp
+                                
+                                @if($gameInterests->count() > 0)
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        @foreach($gameInterests as $interest)
+                                            <label class="flex items-center p-3 bg-slate-800 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                                                <input type="checkbox" 
+                                                    name="game_interests[]" 
+                                                    value="{{ $interest->id }}"
+                                                    {{ in_array($interest->id, $userInterestIds) ? 'checked' : '' }}
+                                                    class="rounded border-gray-600 text-purple-600 shadow-sm focus:border-purple-300 focus:ring focus:ring-purple-200 focus:ring-opacity-50">
+                                                <div class="ml-3 flex items-center">
+                                                    <div class="w-3 h-3 rounded-full mr-2" style="background-color: {{ $interest->color }}"></div>
+                                                    <div>
+                                                        <div class="text-sm font-medium text-gray-100">{{ $interest->name }}</div>
+                                                        @if($interest->description)
+                                                            <div class="text-xs text-gray-400">{{ $interest->description }}</div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="text-center py-4 bg-slate-800 rounded-lg">
+                                        <p class="text-gray-400">Er zijn nog geen game categorieën beschikbaar.</p>
+                                        @if(auth()->user()->is_admin)
+                                            <a href="{{ route('admin.game-interests.index') }}" class="text-purple-400 hover:text-purple-300 text-sm">
+                                                Voeg categorieën toe →
+                                            </a>
+                                        @endif
+                                    </div>
+                                @endif
+                                
+                                <x-input-error class="mt-2" :messages="$errors->get('game_interests')" />
                             </div>
 
                             <div>

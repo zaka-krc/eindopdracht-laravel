@@ -22,4 +22,12 @@ class NewsItem extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Many-to-many: Game interest categorieën
+     */
+    public function gameInterests()
+    {
+        return $this->belongsToMany(GameInterest::class, 'news_item_game_interest');
+    }
 }

@@ -63,10 +63,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('faq/categories', FaqCategoryController::class, ['as' => 'faq']);
     Route::resource('faq/questions', FaqQuestionController::class, ['as' => 'faq']);
     
+    // Game Interests management 
+    Route::resource('game-interests', App\Http\Controllers\GameInterestController::class, ['except' => ['show']]);
+    
     // Contact management
     Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
     Route::get('/contact/{message}', [ContactController::class, 'view'])->name('contact.view');
     Route::delete('/contact/{message}', [ContactController::class, 'destroy'])->name('contact.destroy');
+});
+
+// Game Interest routes (voor ingelogde gebruikers)
+Route::middleware('auth')->group(function () {
+    Route::get('/my-interests', [GameInterestController::class, 'userInterests'])
+        ->name('interests.manage');
+    Route::put('/my-interests', [GameInterestController::class, 'updateUserInterests'])
+        ->name('interests.update');
 });
 
 require __DIR__.'/auth.php';
