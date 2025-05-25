@@ -29,23 +29,44 @@
                     @if ($newsItems->isEmpty())
                         <div class="text-center py-8">
                             <p class="text-gray-300 text-lg">Er zijn nog geen nieuwsberichten beschikbaar.</p>
+                            @can('create', App\Models\NewsItem::class)
+                                <a href="{{ route('admin.news.create') }}" class="inline-block mt-4 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-md font-semibold text-white">
+                                    Voeg het eerste nieuws toe
+                                </a>
+                            @endcan
                         </div>
                     @else
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach ($newsItems as $newsItem)
-                                <div class="bg-slate-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-slate-600 hover:border-purple-500/50">
-                                    <img src="{{ asset('storage/' . $newsItem->image) }}" alt="{{ $newsItem->title }}" class="w-full h-48 object-cover">
+                                <article class="bg-slate-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-slate-600 hover:border-purple-500/50">
+                                    @if($newsItem->image)
+                                        <img src="{{ asset('storage/' . $newsItem->image) }}" 
+                                             alt="{{ $newsItem->title }}" 
+                                             class="w-full h-48 object-cover">
+                                    @else
+                                        <div class="w-full h-48 bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center">
+                                            <span class="text-white text-lg font-semibold">GameHub</span>
+                                        </div>
+                                    @endif
+                                    
                                     <div class="p-4">
                                         <h3 class="text-xl font-semibold mb-2 text-gray-100">{{ $newsItem->title }}</h3>
-                                        <p class="text-purple-300 mb-4 text-sm">{{ \Carbon\Carbon::parse($newsItem->publication_date)->format('d-m-Y') }}</p>
+                                        <p class="text-purple-300 mb-4 text-sm">{{ $newsItem->formatted_date }}</p>
                                         <div class="mb-4 text-gray-300">
-                                            {{ Str::limit($newsItem->content, 100) }}
+                                            {{ $newsItem->excerpt }}
                                         </div>
-                                        <a href="{{ route('news.show', $newsItem) }}" class="inline-block px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm font-medium transition-colors">
-                                            Lees meer →
-                                        </a>
+                                        <div class="flex justify-between items-center">
+                                            <a href="{{ route('news.show', $newsItem) }}" class="inline-block px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm font-medium transition-colors">
+                                                Lees meer →
+                                            </a>
+                                            @if($newsItem->user)
+                                                <a href="{{ route('profile.public.show', $newsItem->user) }}" class="text-xs text-gray-400 hover:text-purple-400 transition-colors">
+                                                    Door {{ $newsItem->user->display_name }}
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
+                                </article>
                             @endforeach
                         </div>
                     @endif

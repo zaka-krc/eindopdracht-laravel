@@ -16,19 +16,19 @@
                         <div class="bg-slate-800 p-4 rounded-lg">
                             <h3 class="font-semibold text-lg mb-2">Laatste Nieuws</h3>
                             <p class="text-gray-300 mb-4">Blijf op de hoogte van de nieuwste game releases en updates.</p>
-                            <a href="#" class="text-purple-400 hover:text-purple-300">Bekijk nieuws →</a>
+                            <a href="{{ route('news.index') }}" class="text-purple-400 hover:text-purple-300">Bekijk nieuws →</a>
                         </div>
                         
                         <div class="bg-slate-800 p-4 rounded-lg">
                             <h3 class="font-semibold text-lg mb-2">Gaming FAQ</h3>
                             <p class="text-gray-300 mb-4">Antwoorden op veelgestelde vragen over games en hardware.</p>
-                            <a href="#" class="text-purple-400 hover:text-purple-300">Bekijk FAQ →</a>
+                            <a href="{{ route('faq.index') }}" class="text-purple-400 hover:text-purple-300">Bekijk FAQ →</a>
                         </div>
                         
                         <div class="bg-slate-800 p-4 rounded-lg">
                             <h3 class="font-semibold text-lg mb-2">Contact</h3>
                             <p class="text-gray-300 mb-4">Vragen of feedback? Neem contact met ons op!</p>
-                            <a href="#" class="text-purple-400 hover:text-purple-300">Contact →</a>
+                            <a href="{{ route('contact.show') }}" class="text-purple-400 hover:text-purple-300">Contact →</a>
                         </div>
                     </div>
                 </div>

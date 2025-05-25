@@ -29,59 +29,36 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
+        $validated = $request->validated();
         
-        // Valideer eerst de basis velden via ProfileUpdateRequest
-        $user->fill($request->validated());
-
-        // Valideer en verwerk de extra velden
-        $additionalValidated = $request->validate([
-            'username' => 'nullable|string|max:255|unique:users,username,' . $user->id,
-            'birthday' => 'nullable|date|before:today',
-            'about_me' => 'nullable|string|max:1000',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'game_interests' => 'nullable|array',
-            'game_interests.*' => 'exists:game_interests,id',
-        ]);
-
-        // Verwerk de profielfoto upload
+        // Handle profile photo upload
         if ($request->hasFile('profile_photo')) {
-            // Verwijder oude profielfoto als die bestaat
+            // Delete old photo
             if ($user->profile_photo) {
                 Storage::disk('public')->delete($user->profile_photo);
             }
             
-            // Sla de nieuwe profielfoto op
-            $path = $request->file('profile_photo')->store('profile-photos', 'public');
-            $user->profile_photo = $path;
+            // Store new photo
+            $validated['profile_photo'] = $request->file('profile_photo')
+                ->store('profile-photos', 'public');
         }
 
-        // Update de overige velden
-        if (isset($additionalValidated['username'])) {
-            $user->username = $additionalValidated['username'];
-        }
-        
-        if (isset($additionalValidated['birthday'])) {
-            $user->birthday = $additionalValidated['birthday'];
-        }
-        
-        if (isset($additionalValidated['about_me'])) {
-            $user->about_me = $additionalValidated['about_me'];
-        }
-        
-        // Sync game interests
-        if (isset($additionalValidated['game_interests'])) {
-            $user->gameInterests()->sync($additionalValidated['game_interests']);
-        } else {
-            // Als geen game interests zijn geselecteerd, verwijder alle relaties
-            $user->gameInterests()->detach();
-        }
+        // Update user with all validated data except game_interests
+        $user->fill(collect($validated)->except('game_interests')->toArray());
 
-        // Check of email is veranderd
+        // Handle email verification reset
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
         $user->save();
+
+        // Sync game interests
+        if (isset($validated['game_interests'])) {
+            $user->gameInterests()->sync($validated['game_interests']);
+        } else {
+            $user->gameInterests()->detach();
+        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -97,8 +74,12 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        Auth::logout();
+        // Delete profile photo
+        if ($user->profile_photo) {
+            Storage::disk('public')->delete($user->profile_photo);
+        }
 
+        Auth::logout();
         $user->delete();
 
         $request->session()->invalidate();
@@ -110,8 +91,10 @@ class ProfileController extends Controller
     /**
      * Display the specified user's profile.
      */
-    public function show(User $user)
+    public function show(User $user): View
     {
+        $user->load('gameInterests'); // Eager load for efficiency
+        
         return view('profile.show', compact('user'));
     }
 }

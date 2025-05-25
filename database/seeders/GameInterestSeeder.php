@@ -21,7 +21,11 @@ class GameInterestSeeder extends Seeder
         ];
 
         foreach ($interests as $interest) {
-            GameInterest::create($interest);
+            // Gebruik updateOrCreate om duplicaten te voorkomen
+            GameInterest::updateOrCreate(
+                ['slug' => $interest['slug']], // Zoek op slug
+                $interest // Update of create met deze data
+            );
         }
     }
 }

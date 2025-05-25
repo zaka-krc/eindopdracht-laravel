@@ -17,17 +17,15 @@ class NewsItem extends Model
         'user_id',
     ];
 
-    // Relatie met user (admin die het nieuws heeft aangemaakt)
+    protected $casts = [
+        'publication_date' => 'datetime',
+    ];
+
+    /**
+     * Relatie met user (admin die het nieuws heeft aangemaakt)
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Many-to-many: Game interest categorieën
-     */
-    public function gameInterests()
-    {
-        return $this->belongsToMany(GameInterest::class, 'news_item_game_interest');
     }
 }

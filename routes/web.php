@@ -1,39 +1,33 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FaqCategoryController;
 use App\Http\Controllers\FaqQuestionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\GameInterestController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// ===== PROFILE ROUTES (Account instellingen - Breeze) =====
+// ===== PROFILE ROUTES =====
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// ===== PUBLIC PROFILE ROUTES (Publieke profielen) =====
+// ===== PUBLIC PROFILE ROUTES =====
 // Publieke profielpagina (iedereen kan zien)
-Route::get('/user/{user}', [PublicProfileController::class, 'show'])->name('profile.public.show');
-
-// Publieke profiel bewerken (alleen ingelogde gebruiker)
-Route::middleware('auth')->group(function () {
-    Route::get('/profile/public/edit', [PublicProfileController::class, 'edit'])->name('profile.public.edit');
-    Route::patch('/profile/public', [PublicProfileController::class, 'update'])->name('profile.public.update');
-});
+Route::get('/user/{user}', [ProfileController::class, 'show'])->name('profile.public.show');
 
 // ===== NEWS ROUTES =====
 // Publiek toegankelijk
@@ -55,6 +49,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('users', AdminUserController::class);
     Route::post('users/{user}/toggle-admin', [AdminUserController::class, 'toggleAdmin'])
         ->name('users.toggle-admin');
+    Route::get('/emergency-admin-restore', [AdminUserController::class, 'emergencyAdminRestore'])
+    ->name('admin.emergency-restore')
+    ->withoutMiddleware(['admin']); // Zonder admin check voor noodsituaties
     
     // News management
     Route::resource('news', NewsItemController::class, ['except' => ['index', 'show']]);
@@ -64,20 +61,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('faq/questions', FaqQuestionController::class, ['as' => 'faq']);
     
     // Game Interests management 
-    Route::resource('game-interests', App\Http\Controllers\GameInterestController::class, ['except' => ['show']]);
+    Route::resource('game-interests', GameInterestController::class, ['except' => ['show']]);
     
     // Contact management
     Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
     Route::get('/contact/{message}', [ContactController::class, 'view'])->name('contact.view');
     Route::delete('/contact/{message}', [ContactController::class, 'destroy'])->name('contact.destroy');
-});
-
-// Game Interest routes (voor ingelogde gebruikers)
-Route::middleware('auth')->group(function () {
-    Route::get('/my-interests', [GameInterestController::class, 'userInterests'])
-        ->name('interests.manage');
-    Route::put('/my-interests', [GameInterestController::class, 'updateUserInterests'])
-        ->name('interests.update');
 });
 
 require __DIR__.'/auth.php';
