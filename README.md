@@ -1,61 +1,251 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# GameHub - Gaming Community Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Een dynamische website gebouwd met Laravel 12 voor de Backend Web eindopdracht. GameHub is een platform voor gaming enthusiasten waar gebruikers nieuws kunnen lezen, FAQ's kunnen raadplegen en hun gaming profiel kunnen delen.
 
-## About Laravel
+## 📋 Functionaliteiten
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 🔐 Authenticatie & Gebruikersbeheer
+- Gebruikersregistratie en login systeem
+- Admin en gewone gebruiker rollen
+- Admin dashboard voor gebruikersbeheer
+- Mogelijkheid voor admins om andere gebruikers admin rechten te geven/afnemen
+- Standaard admin account ingebouwd
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👤 Profielsysteem
+- Publieke profielpagina's voor alle gebruikers
+- Persoonlijke profielinstellingen (username, verjaardag, profielfoto, over mij)
+- Gaming interesses selecteren en weergeven
+- Klikbare gebruikersnamen door de hele applicatie
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 📰 Nieuws Systeem
+- Nieuws CRUD functionaliteit voor admins
+- Publieke nieuwsweergave voor alle bezoekers
+- Afbeelding upload en management
+- Auteur informatie met klikbare profielen
 
-## Learning Laravel
+### ❓ FAQ Systeem
+- Categorieën en vragen beheer voor admins
+- Uitklapbare FAQ weergave met moderne UI
+- Georganiseerd per categorie
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📧 Contact Systeem
+- Contact formulier voor alle bezoekers
+- Berichten management voor admins
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 🎮 Gaming Features
+- GameInterest systeem voor gebruikersvoorkeuren
+- Gaming-themed dark UI design
+- Community focus met profielinteracties
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠 Technische Implementatie
 
-## Laravel Sponsors
+### Models & Database Relaties
+- **User Model** (`app/Models/User.php`) - Gebruikersbeheer met gaming interesses
+- **NewsItem Model** (`app/Models/NewsItem.php`) - Nieuws artikel beheer  
+- **FaqCategory Model** (`app/Models/FaqCategory.php`) - FAQ categorieën
+- **FaqQuestion Model** (`app/Models/FaqQuestion.php`) - FAQ vragen en antwoorden
+- **GameInterest Model** (`app/Models/GameInterest.php`) - Gaming categorieën
+- **ContactMessage Model** (`app/Models/ContactMessage.php`) - Contact berichten
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#### Database Relaties:
+- **One-to-Many**: User → NewsItem, FaqCategory → FaqQuestion
+- **Many-to-Many**: User ↔ GameInterest (via `user_game_interests` pivot tabel)
 
-### Premium Partners
+### Controllers
+- **AdminUserController** (`app/Http/Controllers/AdminUserController.php`) - Gebruikersbeheer met veiligheidsmaatregelen
+- **NewsItemController** (`app/Http/Controllers/NewsItemController.php`) - Nieuws CRUD operaties
+- **FaqCategoryController** (`app/Http/Controllers/FaqCategoryController.php`) - FAQ categorieën beheer
+- **FaqQuestionController** (`app/Http/Controllers/FaqQuestionController.php`) - FAQ vragen beheer
+- **ContactController** (`app/Http/Controllers/ContactController.php`) - Contact formulier handling
+- **ProfileController** (`app/Http/Controllers/ProfileController.php`) - Profiel management
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Views & Layout
+- **Layouts**: `app-layout` voor ingelogde gebruikers, `guest-layout` voor bezoekers
+- **Components**: Herbruikbare navigation en user-link components
+- **XSS Protection**: Alle user input wordt geëscaped via Laravel Blade
+- **CSRF Protection**: Standaard Laravel CSRF tokens op alle formulieren
 
-## Contributing
+### Routes & Middleware
+Alle routes zijn georganiseerd in groepen met appropriate middleware:
+- **Public routes**: Nieuws, FAQ, Contact (geen authenticatie vereist)
+- **Auth routes**: Dashboard, Profiel (authenticatie vereist)
+- **Admin routes**: Admin panel (authenticatie + admin rol vereist)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📁 Project Structuur
 
-## Code of Conduct
+```
+eindopdracht-laravel/
+├── app/
+│   ├── Http/Controllers/          # Alle controller logica
+│   ├── Models/                    # Eloquent models
+│   └── Middleware/               # Route middleware
+├── database/
+│   ├── migrations/               # Database schema's
+│   └── seeders/                  # Test data generators
+├── resources/views/              # Blade templates
+│   ├── admin/users/             # Admin gebruikersbeheer
+│   ├── contact/                 # Contact formulieren
+│   ├── faq/                     # FAQ pagina's
+│   ├── news/                    # Nieuws overzicht en details
+│   ├── profile/                 # Gebruikersprofielen
+│   └── layouts/                 # Template layouts
+└── routes/web.php               # Route definities
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🚀 Installatie
 
-## Security Vulnerabilities
+### Vereisten
+- PHP >= 8.2
+- Composer
+- MySQL/MariaDB
+- Node.js & NPM
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Installatiestappen
 
-## License
+1. **Clone de repository**
+```bash
+git clone [repository-url]
+cd eindopdracht-laravel
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+2. **Installeer dependencies**
+```bash
+composer install
+npm install
+```
+
+3. **Environment configuratie**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **Database configuratie**
+Pas je `.env` bestand aan met je database gegevens:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=gamehub
+DB_USERNAME=root
+DB_PASSWORD=test1234
+```
+
+5. **Database setup**
+```bash
+php artisan migrate:fresh --seed
+```
+
+6. **Storage link**
+```bash
+php artisan storage:link
+```
+
+7. **Build assets**
+```bash
+npm run dev
+```
+
+8. **Start de applicatie**
+```bash
+php artisan serve
+```
+
+Bezoek `http://localhost:8000` om de applicatie te bekijken.
+
+## 👨‍💻 Standaard Admin Account
+
+Na het uitvoeren van de seeders is er een standaard admin account beschikbaar:
+
+- **Email**: admin@ehb.be
+- **Password**: Password!321
+- **Rol**: Administrator
+
+## 📷 Screenshots
+
+### Dashboard
+Het hoofddashboard toont een overzicht van alle beschikbare functies met directe links naar nieuws, FAQ en contact.
+
+![Dashboard](images/dashboard.png)
+
+### Admin Panel - Gebruikersbeheer
+Uitgebreid admin panel voor het beheren van gebruikers met mogelijkheid om admin rechten toe te kennen.
+
+![Admin Gebruikersbeheer](images/admin-users.png)
+
+### Gebruikersprofiel
+Publieke profielpagina's tonen gebruikersinformatie, gaming interesses en maken deel uit van de community ervaring.
+
+![Gebruikersprofiel](images/user-profile.png)
+
+### Profiel Instellingen
+Gaming interesses selectie met verschillende categorieën voor personalisatie.
+
+![Profiel Instellingen](images/profile-settings.png)
+
+### Nieuws Systeem
+Nieuws overzicht met afbeeldingen, publicatiedata en auteur informatie.
+
+![Nieuws Overzicht](images/news-overview.png)
+
+### FAQ Systeem
+Interactieve FAQ pagina met uitklapbare vragen georganiseerd per categorie.
+
+![FAQ Pagina](images/faq-page.png)
+
+### Contact Formulier
+Clean en gebruiksvriendelijk contact formulier voor gebruikersfeedback.
+
+![Contact Formulier](images/contact-form.png)
+
+## 🧩 Technische Vereisten Implementatie
+
+| Vereiste | Implementatie Locatie | Beschrijving |
+|----------|----------------------|--------------|
+| **Views - Layouts** | `resources/views/layouts/` | App-layout en guest-layout |
+| **Views - Components** | `resources/views/components/` | User-link component voor herbruikbaarheid |
+| **XSS Protection** | Alle `.blade.php` files | Laravel Blade auto-escaping |
+| **CSRF Protection** | Alle formulieren | `@csrf` directive |
+| **Route Middleware** | `routes/web.php` lijnen 15-45 | Auth en admin middleware groepen |
+| **Resource Controllers** | `app/Http/Controllers/` | NewsItemController, FaqCategoryController |
+| **One-to-Many** | `app/Models/User.php` lijn 47 | User → NewsItem relatie |
+| **Many-to-Many** | `app/Models/User.php` lijn 52 | User ↔ GameInterest relatie |
+| **Migrations** | `database/migrations/` | Alle database schema's |
+| **Seeders** | `database/seeders/` | GameInterestSeeder, AdminUserSeeder |
+
+## 🌟 Extra Features
+
+- **Gaming Interesses Systeem**: Gebruikers kunnen hun gaming voorkeuren selecteren
+- **Klikbare Gebruikersprofielen**: Community interactie door de hele applicatie
+- **Admin Beveiligingen**: Admins kunnen hun eigen rechten niet per ongeluk verwijderen
+- **Dark Gaming Theme**: Professionele gaming-geïnspireerde UI
+- **Responsive Design**: Werkt op alle apparaten
+- **Image Management**: Upload en beheer van profiel- en nieuwsafbeeldingen
+
+## 📚 Gebruikte Technologieën
+
+- **Backend**: Laravel 12, PHP 8.2
+- **Frontend**: Blade Templates, Tailwind CSS, Alpine.js
+- **Database**: MySQL met Eloquent ORM
+- **Authentication**: Laravel Breeze
+- **File Storage**: Laravel Storage met public disk
+- **Styling**: Tailwind CSS met custom gaming theme
+
+## 🔗 Gebruikte Bronnen
+
+- [Laravel Documentation](https://laravel.com/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Laravel Breeze](https://laravel.com/docs/starter-kits#laravel-breeze)
+- [Alpine.js Documentation](https://alpinejs.dev/)
+- **AI Assistants**: 
+  - Claude (Anthropic) voor code review, optimalisatie en debugging (en deze Read me): https://claude.ai/share/1fd2af4a-d9f6-4133-b678-a749337e3f0a en https://claude.ai/chat/52d1451d-a721-4b53-b943-fb17b8ad7a82
+  - GitHub Copilot voor code suggestions, vragen en autocompletion tijdens development
+
+## 👨‍🎓 Auteur
+
+**Naam**: Zakaria Korchi
+**Vak**: Backend Web   
+**Academiejaar**: 2024-2025  
+**Hogeschool**: Erasmushogeschool Brussel
+
+---
