@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
     /**
-     * Toon het contactformulier
+     * Toon het publieke contactformulier
      */
     public function show()
     {
@@ -17,7 +16,7 @@ class ContactController extends Controller
     }
 
     /**
-     * Verwerk het contactformulier
+     * Verwerk het contactformulier (publiek)
      */
     public function submit(Request $request)
     {
@@ -29,46 +28,46 @@ class ContactController extends Controller
         ]);
 
         // Bericht opslaan in database
-        $contactMessage = ContactMessage::create($validated);
+        ContactMessage::create($validated);
 
-        // E-mail verzenden naar admin zou hier komen
-        // Voor nu simuleren we dit met een flash message
-        
         return redirect()->route('contact.show')
             ->with('success', 'Je bericht is succesvol verzonden. We nemen zo snel mogelijk contact met je op.');
     }
 
     /**
-     * Toon de lijst van contactberichten (alleen voor admins)
+     * ADMIN: Toon lijst van contactberichten
      */
     public function index()
     {
         $messages = ContactMessage::orderBy('created_at', 'desc')->get();
-        return view('contact.index', compact('messages'));
+        return view('admin.contact.index', compact('messages'));
     }
 
     /**
-     * Toon een specifiek bericht (alleen voor admins)
+     * ADMIN: Toon specifiek bericht - GEFIXT: nu met ID parameter
      */
-    public function view(ContactMessage $message)
+    public function view($messageId)
     {
+        $message = ContactMessage::findOrFail($messageId);
+        
         // Markeer als gelezen
         if (!$message->is_read) {
             $message->is_read = true;
             $message->save();
         }
         
-        return view('contact.view', compact('message'));
+        return view('admin.contact.view', compact('message'));
     }
 
     /**
-     * Verwijder een bericht (alleen voor admins)
+     * ADMIN: Verwijder bericht - GEFIXT: nu met ID parameter
      */
-    public function destroy(ContactMessage $message)
+    public function destroy($messageId)
     {
+        $message = ContactMessage::findOrFail($messageId);
         $message->delete();
         
-        return redirect()->route('contact.index')
+        return redirect()->route('admin.contact.index')
             ->with('success', 'Bericht succesvol verwijderd.');
     }
 }

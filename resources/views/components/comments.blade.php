@@ -10,7 +10,7 @@
             
             @auth
                 @if(auth()->user()->is_admin && $newsItem->comments()->count() > 0)
-                    <form action="{{ route('comments.bulk-delete', $newsItem) }}" method="POST" class="inline">
+                    <form action="{{ route('admin.comments.bulk-delete', $newsItem) }}" method="POST" class="inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" 
