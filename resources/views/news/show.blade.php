@@ -67,8 +67,13 @@
                             </form>
                         @endcan
                     </footer>
+
+                    {{-- Comments Section --}}
+                    <x-comments :newsItem="$newsItem" />
                 </div>
             </div>
         </div>
     </div>
+
+    @stack('scripts')
 </x-app-layout>

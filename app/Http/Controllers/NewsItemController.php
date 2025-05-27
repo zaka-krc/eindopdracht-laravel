@@ -11,6 +11,7 @@ class NewsItemController extends Controller
     public function index(Request $request)
     {
         $newsItems = NewsItem::with('user')
+            ->withCount('comments')
             ->orderBy('publication_date', 'desc')
             ->get();
         
@@ -47,6 +48,13 @@ class NewsItemController extends Controller
 
     public function show(NewsItem $newsItem)
     {
+        // Eager load user and top-level comments with their nested replies
+        $newsItem->load([
+            'user',
+            'topLevelComments.user',
+            'topLevelComments.allReplies.user'
+        ]);
+        
         return view('news.show', compact('newsItem'));
     }
 
@@ -88,7 +96,7 @@ class NewsItemController extends Controller
             Storage::disk('public')->delete($newsItem->image);
         }
 
-        $newsItem->delete();
+        $newsItem->delete(); // Comments worden automatisch verwijderd door cascade
 
         return redirect()->route('news.index')
             ->with('success', 'Nieuwsitem succesvol verwijderd.');

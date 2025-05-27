@@ -8,6 +8,7 @@ use App\Http\Controllers\FaqQuestionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\GameInterestController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -67,6 +68,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
     Route::get('/contact/{message}', [ContactController::class, 'view'])->name('contact.view');
     Route::delete('/contact/{message}', [ContactController::class, 'destroy'])->name('contact.destroy');
+});
+
+// Comment routes (alleen voor ingelogde gebruikers)
+Route::middleware('auth')->group(function () {
+    Route::post('/news/{newsItem}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::patch('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+});
+
+// Admin comment routes
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::delete('/news/{newsItem}/comments/bulk', [CommentController::class, 'bulkDelete'])->name('comments.bulk-delete');
 });
 
 require __DIR__.'/auth.php';
