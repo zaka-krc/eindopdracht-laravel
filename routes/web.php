@@ -7,7 +7,6 @@ use App\Http\Controllers\FaqCategoryController;
 use App\Http\Controllers\FaqQuestionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminUserController;
-use App\Http\Controllers\GameInterestController;
 use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,9 +70,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // ===== FAQ MANAGEMENT =====
     Route::resource('faq/categories', FaqCategoryController::class, ['as' => 'faq']);
     Route::resource('faq/questions', FaqQuestionController::class, ['as' => 'faq']);
-    
-    // ===== GAME INTERESTS MANAGEMENT =====
-    Route::resource('game-interests', GameInterestController::class, ['except' => ['show']]);
     
     // ===== CONTACT MANAGEMENT =====
     Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');

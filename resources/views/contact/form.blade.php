@@ -89,7 +89,7 @@
                                     </div>
                                     <div>
                                         <h3 class="text-lg font-medium">E-mail</h3>
-                                        <p class="text-gray-300">info@gamehub.nl</p>
+                                        <p class="text-gray-300">admin@ehb.be</p>
                                     </div>
                                 </div>
                                 
