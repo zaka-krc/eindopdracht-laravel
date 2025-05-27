@@ -224,7 +224,7 @@ Interactieve FAQ pagina met uitklapbare vragen georganiseerd per categorie.
 ### Contact Formulier
 Clean en gebruiksvriendelijk contact formulier voor gebruikersfeedback.
 
-![Contact Formulier](images/contact-form.png)
+![Contact Formulier](images/contact-form1.png)
 
 ## 🧩 Technische Vereisten Implementatie
 
