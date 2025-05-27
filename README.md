@@ -234,10 +234,10 @@ Clean en gebruiksvriendelijk contact formulier voor gebruikersfeedback.
 | **Views - Components** | `resources/views/components/` | User-link en comments component |
 | **XSS Protection** | Alle `.blade.php` files | Laravel Blade auto-escaping |
 | **CSRF Protection** | Alle formulieren | `@csrf` directive |
-| **Route Middleware** | `routes/web.php` lijnen 15-45 | Auth en admin middleware groepen |
+| **Route Middleware** | `routes/web.php` | Auth en admin middleware groepen |
 | **Resource Controllers** | `app/Http/Controllers/` | NewsItemController, FaqCategoryController, CommentController |
-| **One-to-Many** | `app/Models/User.php` lijn 47 | User → NewsItem relatie |
-| **Many-to-Many** | `app/Models/User.php` lijn 52 | User ↔ GameInterest relatie |
+| **One-to-Many** | `app/Models/User.php` | User → NewsItem relatie |
+| **Many-to-Many** | `app/Models/User.php` | User ↔ GameInterest relatie |
 | **Migrations** | `database/migrations/` | Alle database schema's |
 | **Seeders** | `database/seeders/` | GameInterestSeeder, AdminUserSeeder,TemplateSeeder |
 
